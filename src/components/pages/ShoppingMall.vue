@@ -44,10 +44,34 @@
                         <div class="swiper-item">
                             <img :src="item.image" width="80%">
                             <span>{{item.goodsName}}</span>
-                            <span>￥{{item.price}}(￥{{item.mallPrice}})</span>
+                            <span>￥{{item.price | moneyFilter}}(￥{{item.mallPrice | moneyFilter}})</span>
                         </div>
                     </swiper-slide>
                 </swiper>
+            </div>
+        </div>
+        <!--        休闲食品楼层-->
+        <floor-component :floorData="floor1" :floorName="floor1_name"></floor-component>
+        <!--        新鲜水果楼层-->
+        <floor-component :floorData="floor2" :floorName="floor2_name"></floor-component>
+        <!--        营养奶品楼层-->
+        <floor-component :floorData="floor3" :floorName="floor3_name"></floor-component>
+        <!--热销商品-->
+        <div class="hotGoods">
+            <div class="hootGoods_title">
+                热销商品
+            </div>
+            <div class="hootGoods_body">
+                <van-list>
+                    <!--                    列与列之间的间距为20px-->
+                    <van-row gutter="20">
+                        <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
+                            <goods-info :goodsImage="item.image" :goodsName="item.name"
+                                        :goodsPrice="item.price">
+                            </goods-info>
+                        </van-col>
+                    </van-row>
+                </van-list>
             </div>
         </div>
     </div>
@@ -56,19 +80,41 @@
 
 <script>
     import axios from 'axios'
+    import floorComponent from "../component/floorComponent";
+    import goodsInfo from "../component/goodInfoComponent";
+    import {toMoney} from '../filter/moneyFilter'
 
     export default {
         data() {
             return {
+                swiperOption: {
+                    slidesPerView: 3
+                },
                 locationIcon: require('../../assets/images/location.png'),
                 bannerImg: [],
                 category: [],
                 adBanner: "",
                 recommend: [],
-                swiperOption: {
-                    slidesPerView: 3
-                }
+                floor1: [],
+                floor2: [],
+                floor3: [],
+                floor1_name: {},
+                floor2_name: {},
+                floor3_name: {},
+                floor1_0: {},
+                floor1_1: {},
+                floor1_2: {},
+                hotGoods: []
             };
+        },
+        filters: {
+            moneyFilter: function (money) {
+                return toMoney(money)
+            }
+        },
+        components: {
+            floorComponent,
+            goodsInfo
         },
         created() {
             axios({
@@ -81,6 +127,16 @@
                     this.category = res.data.category;
                     this.adBanner = res.data.advertesPicture.PICTURE_ADDRESS;
                     this.recommend = res.data.recommend;
+                    this.floor1 = res.data.floor1;
+                    this.floor2 = res.data.floor2;
+                    this.floor3 = res.data.floor3;
+                    this.floor1_name = res.data.floorName.floor1;
+                    this.floor2_name = res.data.floorName.floor2;
+                    this.floor3_name = res.data.floorName.floor3;
+                    this.floor1_0 = res.data.floor1[0];
+                    this.floor1_1 = res.data.floor1[1];
+                    this.floor1_2 = res.data.floor1[2];
+                    this.hotGoods = res.data.hotGoods;
                 }
             }).catch(error => {
                 console.log(error)
@@ -141,14 +197,30 @@
         border-bottom: 1px solid #eee;
         padding: .2rem;
     }
-    .recommend-body{
+
+    .recommend-body {
         border-bottom: 1px solid #eee;
     }
+
     .swiper-item {
         width: 99%;
         border-right: 1px solid #eee;
         font-size: 12px;
         text-align: center;
+    }
+
+
+    .hotGoods {
+        background-color: #fff;
+        font-size: 14px;
+    }
+
+    .hotGoods .hootGoods_title {
+        font-size: 14px;
+        text-align: center;
+        background-color: #ddd;
+        line-height: 1.8rem;
+        height: 1.8rem;
     }
 
 </style>
