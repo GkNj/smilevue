@@ -6,18 +6,24 @@ const {
     initSchemas
 } = require('./database/init');
 
-;
-(async () => {
+
+;(async () => {
     await connect()
     initSchemas()
     const User = mongoose.model('User')
     let OneUser = new User({
-        userName: 'gaokai',
+        userName: 'gaokai2',
         password: '123456'
     })
     OneUser.save().then(() => {
         console.log('插入成功！');
     })
+    let user = await User.findOne({}).exec();
+    console.log('-------------');
+    console.log(user);
+    console.log('-------------');
+
+
 })()
 
 app.use(async (ctx) => {
