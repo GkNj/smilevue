@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import shoppingmall from '@/components/pages/ShoppingMall.vue'
+import shoppingMall from '@/components/pages/ShoppingMall.vue'
 import register from '@/components/pages/Register.vue'
 import login from '@/components/pages/Login.vue'
-Vue.use(Router)
+import goods from '@/components/pages/Goods.vue'
+Vue.use(Router);
 
 const routes = (
     [
-        { path: '/', name: 'shoppingmall',component: shoppingmall },
+        { path: '/', name: 'shoppingMall',component: shoppingMall },
         { path: '/register', name: 'register',component: register },
         { path: '/login', name: 'login',component: login },
+        { path: '/goods', name: 'goods',component: goods },
 ]
 )
 
