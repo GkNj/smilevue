@@ -4,6 +4,7 @@ import shoppingMall from '@/components/pages/ShoppingMall.vue'
 import register from '@/components/pages/Register.vue'
 import login from '@/components/pages/Login.vue'
 import goods from '@/components/pages/Goods.vue'
+import categoryList from '@/components/pages/CategoryList.vue'
 Vue.use(Router);
 
 const routes = (
@@ -12,6 +13,7 @@ const routes = (
         { path: '/register', name: 'register',component: register },
         { path: '/login', name: 'login',component: login },
         { path: '/goods', name: 'goods',component: goods },
+        { path: '/categoryList', name: 'categoryList',component: categoryList },
 ]
 )
 
