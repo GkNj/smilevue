@@ -12,7 +12,7 @@
             <img :src="goodsInfo.IMAGE1" alt="" width="100%">
         </div>
         <div class="goods-name">{{goodsInfo.NAME}}</div>
-        <div class="goods-price">价格：{{goodsInfo.PRESENT_PRICE | moneyFilter}}</div>
+        <div class="goods-price">价格：￥{{goodsInfo.PRESENT_PRICE | moneyFilter}}</div>
         <div>
             <van-tabs swipeable sticky>
                 <van-tab title="商品详情">
@@ -50,11 +50,12 @@
         name: "Goods",
         data() {
             return {
-                goodsId: '775e575ce28a4f89b1dfe2c99eb08ae7',
+                goodsId: '',
                 goodsInfo: {}
             }
         },
         created() {
+            this.goodsId = this.$route.query.goodsId ? this.$route.query.goodsId : this.$route.params.goodsId;
             this.getInfo()
         },
         methods: {
@@ -70,7 +71,7 @@
                     if (res.data.code === 200 && res.data.message) {
                         this.goodsInfo = res.data.message
                     } else {
-                        Toast.success('服务器错误，获取数据失败')
+                        Toast.fail('服务器错误，获取数据失败')
                     }
                 }).catch(err => {
                     console.log(err)
