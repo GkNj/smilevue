@@ -65,7 +65,8 @@
                 <van-list>
                     <!--                    列与列之间的间距为20px-->
                     <van-row gutter="20">
-                        <van-col span="12" v-for="(item,index) in hotGoods" :key="index">
+                        <van-col span="12" v-for="(item,index) in hotGoods" :key="index"
+                                 @click="gotoGoodsInfo(item.goodsId)">
                             <goods-info :goodsImage="item.image" :goodsName="item.name"
                                         :goodsPrice="item.price">
                             </goods-info>
@@ -112,6 +113,11 @@
                 return toMoney(money)
             }
         },
+        methods: {
+            gotoGoodsInfo(id) {
+                this.$router.push({name: 'goods', params: {goodsId: id}})
+            }
+        },
         components: {
             floorComponent,
             goodsInfo
@@ -137,6 +143,7 @@
                     this.floor1_1 = res.data.floor1[1];
                     this.floor1_2 = res.data.floor1[2];
                     this.hotGoods = res.data.hotGoods;
+
                 }
             }).catch(error => {
                 console.log(error)
@@ -212,6 +219,8 @@
 
     .hotGoods {
         background-color: #fff;
+        height: 130rem;
+        overflow: hidden;
         font-size: 14px;
     }
 

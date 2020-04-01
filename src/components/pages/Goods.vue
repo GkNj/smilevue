@@ -27,7 +27,7 @@
         <div class="goods-bottom">
 
             <div>
-                <van-button size="large" type="primary">
+                <van-button size="large" type="primary" @click="addGoodsToCart">
                     加入购物车
                 </van-button>
             </div>
@@ -79,6 +79,34 @@
             },
             onClickLeft() {
                 this.$router.go(-1)
+            },
+            /**
+             * 添加商品到购物车
+             */
+            addGoodsToCart() {
+                // localStorage.removeItem('cartInfo');
+                //取出购物车的商品数据
+                console.log(localStorage.cartInfo + '--------------')
+                let cartInfo = localStorage.cartInfo ? JSON.parse(localStorage.cartInfo) : [];
+                console.log(cartInfo);
+                //判断购物车内是否有当前商品，如果有显示已有此商品，如果没有，则添加
+                let isHaveGoodsInfo = cartInfo.find(cart => cart.goodsId === this.goodsId);
+                console.log(isHaveGoodsInfo);
+                if (!isHaveGoodsInfo) {
+                    let newGoodsInfo = {
+                        goodsId:this.goodsInfo.ID,
+                        Name:this.goodsInfo.NAME,
+                        price:this.goodsInfo.PRESENT_PRICE,
+                        image:this.goodsInfo.IMAGE1,
+                        count:1
+                    };
+                    cartInfo.push(newGoodsInfo);//添加到购物车
+                    localStorage.cartInfo = JSON.stringify(cartInfo);//操作本地数据库
+                    Toast.success('添加成功')
+                } else {
+                    Toast.fail('已有此商品')
+                }
+                this.$router.push('/cart')
             }
         },
         filters: {
